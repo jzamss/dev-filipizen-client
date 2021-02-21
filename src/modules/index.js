@@ -1,5 +1,7 @@
-import rptis from "./rptis/index.json";
-import bpls from "./bpls/index.json";
+import loadable from "@loadable/component";
+
+import rptis from "./rptis/module.json";
+import bpls from "./bpls/module.json";
 
 const modules = [bpls, rptis];
 
@@ -23,6 +25,13 @@ export const getModules = (partner) => {
   });
 
   return partnerModules.filter((module) => module.services.length > 0);
+};
+
+export const getServiceComponent = (service) => {
+  const ServiceComponent = loadable(() =>
+    import(`./${service.module}/${service.name}/${service.component}`)
+  );
+  return ServiceComponent;
 };
 
 export default modules;

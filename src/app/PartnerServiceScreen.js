@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import LguMasterTemplate from "../templates/LguMasterTemplate";
-import { getPartnerServiceFromLocation } from "../lib/partner";
-import * as modules from "../modules/modules";
-
-const getServiceModule = (service) => {
-  return modules.getServiceModule(service);
-};
+// import LguMasterTemplate from "../templates/LguMasterTemplate";
+// import { getPartnerServiceFromLocation } from "../lib/partner";
+import { getServiceComponent } from "../modules";
 
 const getPartnerServiceInfo = (location) => {
   if (location && location.state) {
@@ -18,53 +14,17 @@ const getPartnerServiceInfo = (location) => {
 const PartnerServiceScreen = (props) => {
   const location = useLocation();
   const history = useHistory();
+  console.log("location", location);
+  console.log("history", history);
 
-  const {
-    partner: initialPartner,
-    service: initialService,
-    ...rest
-  } = getPartnerServiceInfo(location);
-
-  const [partner, setPartner] = useState(initialPartner);
-  const [service, setService] = useState(initialService);
-
-  useEffect(() => {
-    if (!initialPartner) {
-      getPartnerServiceFromLocation(location)
-        .then((data) => {
-          if (data.redirectUrl) {
-            history.replace(data.redirectUrl);
-          } else {
-            setPartner(data.partner);
-            setService(data.service);
-          }
-        })
-        .catch((err) => history.replace("/partners"));
-    }
-  }, [history, initialPartner, location]);
-
-  if (!partner || !service) {
-    return null;
-  }
-
-  const ServiceModule = getServiceModule(service);
+  const { partner, service } = getPartnerServiceInfo(location);
+  const ServiceModule = getServiceComponent(service);
 
   return (
-    <LguMasterTemplate partner={partner}>
-      <ServiceModule {...props} partner={partner} service={service} {...rest}>
-        {(module) => {
-          const ServiceComponent = module[service.component];
-          return (
-            <ServiceComponent
-              {...props}
-              partner={partner}
-              service={service}
-              {...rest}
-            />
-          );
-        }}
-      </ServiceModule>
-    </LguMasterTemplate>
+    <div>
+      <h1>Partner Service</h1>
+      <ServiceModule />
+    </div>
   );
 };
 

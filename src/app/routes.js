@@ -3,8 +3,8 @@
 import HomeScreen from "./HomeScreen";
 import PartnerListScreen from "./PartnerListScreen";
 import PartnerScreen from "./PartnerScreen";
+import PartnerServiceScreen from "./PartnerServiceScreen";
 
-// import PartnerScreen from "./app/PartnerScreen";
 // import PartnerServiceScreen from "./app/PartnerServiceScreen";
 // import PaymentSuccess from "./app/PaymentSuccess";
 // import PaymentError from "./app/PaymentError";
@@ -35,11 +35,11 @@ const routes = [
     path: "/partner/:partnerId/services",
     component: PartnerScreen,
   },
-  // {
-  //   name: "service",
-  //   path: "/partner/:partnerId/:module/:service",
-  //   component: PartnerServiceScreen,
-  // },
+  {
+    name: "service",
+    path: "/partner/:partnerId/:module/:service",
+    component: PartnerServiceScreen,
+  },
   // {
   //   name: "success",
   //   path: "/payment/success",
