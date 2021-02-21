@@ -1,0 +1,8 @@
+.FilipizenTemplate {
+  min-height: 100%;
+}
+
+.FilipizenTemplate__content {
+  width: 80%;
+  margin: auto;
+}
