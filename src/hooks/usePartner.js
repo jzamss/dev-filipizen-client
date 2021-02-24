@@ -1,59 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Service } from "../rsi-react-components";
-import { getModules } from "../modules";
+import { getPartnerFromLocation } from "../lib";
 
-const getPartnerFromLocation = (location) => {
-  return new Promise((resolve, reject) => {
-    const pathname = location.pathname;
-    const matches = pathname.match("/partner/(.*)_(.*)/services");
-    if (!matches || matches.length < 3) {
-      reject("Invalid path");
-    }
-
-    let groupName = matches[1];
-    let partnerName = matches[2];
-
-    const svc = Service.lookup("CloudPartnerService", "partner");
-    svc.invoke(
-      "findByGroupAndName",
-      { groupname: groupName, name: partnerName },
-      (err, partner) => {
-        if (!err) {
-          if (partner.isonline !== "0") {
-            resolve(partner);
-          } else {
-            reject("Partner is offline.");
-          }
-        } else {
-          reject(`Partner ${partnerName} does not exist. ${err}`);
-        }
-      }
-    );
-  });
-};
-
-const usePartner = ({ location }) => {
+/* Returns partner from a location */
+const usePartner = (location) => {
   const [partner, setPartner] = useState();
-  const [modules, setModules] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState();
 
   useEffect(() => {
-    let partner = location.state ? location.state.partner : null;
+    let partner = location && location.state ? location.state.partner : null;
     if (partner) {
       setPartner(partner);
-      setModules(getModules(partner));
     } else {
-      setError(false);
+      setError(null);
       getPartnerFromLocation(location)
         .then((partner) => {
           setPartner(partner);
-          setModules(getModules(partner));
         })
-        .catch((err) => setError(true));
+        .catch((err) => setError(err));
     }
   }, [location]);
 
-  return [partner, modules, error];
+  return [partner, setPartner, error];
 };
 
 export default usePartner;

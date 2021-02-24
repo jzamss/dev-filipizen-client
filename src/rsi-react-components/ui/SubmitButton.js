@@ -7,7 +7,6 @@ const SubmitButton = ({
   variant = "contained",
   color = "primary",
   size = "small",
-  submitting,
   children,
   visible = true,
   disabled = false,
@@ -22,7 +21,6 @@ const SubmitButton = ({
       variant={variant}
       color={color}
       size={size}
-      submitting={submitting}
       children={children}
       visible={visible}
       disabled={disabled}

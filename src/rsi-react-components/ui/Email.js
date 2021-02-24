@@ -9,6 +9,7 @@ const Email = ({
   required = false,
   disabled = false,
   fullWidth = true,
+  helperText,
 }) => {
   if (!visible) return null;
 
@@ -23,6 +24,7 @@ const Email = ({
       fullWidth={fullWidth}
       type="email"
       textCase="LOWER"
+      helperText={helperText}
     />
   );
 };

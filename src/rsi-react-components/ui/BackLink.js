@@ -1,9 +1,15 @@
 import React from "react";
 import Button from "./Button";
 
-const BackLink = ({ caption, children, variant = "text", size = "medium" }) => {
+const BackLink = ({
+  caption,
+  action,
+  children,
+  variant = "text",
+  size = "medium",
+}) => {
   return (
-    <Button size={size} variant={variant}>
+    <Button size={size} variant={variant} action={action}>
       {caption || children || "Back"}
     </Button>
   );

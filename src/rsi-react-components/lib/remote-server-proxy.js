@@ -26,7 +26,7 @@ const LocalProxy = (name, connection, module) => {
   const invoke = (action, args, handler, ...rest) => {
     const data = {
       service: { module, connection, name, action },
-      args: args ? [args] : null
+      args: args ? [args] : null,
     };
 
     const urlaction = "/filipizen/service/invoke";
@@ -37,24 +37,25 @@ const LocalProxy = (name, connection, module) => {
       mode: "cors",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
       .then((res) => {
-        return res.json()
+        return res.json();
       })
       .then((data) => {
         if (data.error) {
-          handler(data.error, null)
+          handler(data.error, null);
         } else {
           if (!Array.isArray(data) && Object.keys(data).length === 0) {
             //treat EMPTY data as null (from server)
-            handler(null, null)
-          } if (!Array.isArray(data) && data.status === "ERROR") {
+            handler(null, null);
+          }
+          if (!Array.isArray(data) && data.status === "ERROR") {
             handler(data.msg, null);
           } else {
-            handler(null, data)
+            handler(null, data);
           }
         }
       })
@@ -75,7 +76,7 @@ const RemoteProxy = (name, channel, connection, module) => {
         channel: channel,
         connection: connection,
         module: module,
-        args: args
+        args: args,
       };
       socket.emit("invoke", params, (res) => {
         if (res.status === "OK") {
@@ -85,7 +86,7 @@ const RemoteProxy = (name, channel, connection, module) => {
         }
       });
       socket.on("disconnect", () => {
-        console.log("AsyncFetch disconnted")
+        console.log("AsyncFetch disconnted");
       });
     });
     return await promise;
@@ -93,10 +94,13 @@ const RemoteProxy = (name, channel, connection, module) => {
 
   const invoke = (method, args, handler) => {
     asyncFetch(method, args)
-      .then(data => handler(null, data))
-      .catch(err => {
+      .then((data) => handler(null, data))
+      .catch((err) => {
         if (/syntax/i.test(err)) {
-          handler("Partner is currently not avaible. Please try again later.", null);
+          handler(
+            "Partner is currently not avaible. Please try again later.",
+            null
+          );
         } else {
           handler(err, null);
         }
@@ -105,8 +109,6 @@ const RemoteProxy = (name, channel, connection, module) => {
 
   return { invoke };
 };
-
-
 
 /*========================================================
 *
@@ -125,11 +127,8 @@ const AsyncRemoteProxy = (name, channel, connection, module) => {
         connection: connection,
         module: module,
         channel: channel,
-        args: args
+        args: args,
       };
-      // console.log(
-      //   `AsyncRemoteProxy [invoke] ${params.service}.${params.method} channel: ${params.channel} connection: ${connection} module: ${module}`
-      // );
       socket.emit("invoke", params, (res) => {
         if (res.status === "OK") {
           if (handler) {
@@ -156,9 +155,8 @@ const findAsyncRemoteService = (name, connection, module) => {
   return AsyncRemoteProxy(serviceName, channel, connection, module);
 };
 
-
 const AsyncLocalProxy = (name, connection, module) => {
-  const invoke = async (action, args,) => {
+  const invoke = async (action, args) => {
     const data = {
       service: { module, connection, name, action },
       args: args ? [args] : null,
@@ -172,9 +170,9 @@ const AsyncLocalProxy = (name, connection, module) => {
       mode: "cors",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
 
     if (res.status !== 200) {
@@ -185,19 +183,15 @@ const AsyncLocalProxy = (name, connection, module) => {
   return { invoke };
 };
 
-const findAsyncLocalService = ({
-  serviceName,
-  connection,
-  module
-}) => {
+const findAsyncLocalService = ({ serviceName, connection, module }) => {
   return AsyncLocalProxy(serviceName, connection, module);
 };
 
 const serviceCache = {};
 
-const Service = {}
+const Service = {};
 
-Service.lookup = function(
+Service.lookup = function (
   serviceName,
   connection = "default",
   module,
@@ -212,7 +206,7 @@ Service.lookup = function(
         serviceName,
         connection,
         module,
-        ...options
+        ...options,
       });
     }
     serviceCache[serviceName] = svc;
@@ -220,7 +214,7 @@ Service.lookup = function(
   return serviceCache[serviceName];
 };
 
-Service.lookupAsync = function(
+Service.lookupAsync = function (
   serviceName,
   connection = "default",
   module,
@@ -236,7 +230,7 @@ Service.lookupAsync = function(
         serviceName,
         connection,
         module,
-        ...options
+        ...options,
       });
     }
     serviceCache[serviceKeyName] = svc;

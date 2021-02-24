@@ -1,11 +1,11 @@
-import React,  {useRef} from "react";
+import React, { useRef } from "react";
 import { Form as RFForm } from "react-final-form";
 import createDecorator from "final-form-focus";
 
 const focusOnError = createDecorator();
 
 const Form = ({
-  initialEntity,
+  initialValues,
   onSubmit,
   validate,
   component,
@@ -13,27 +13,28 @@ const Form = ({
   children,
   decorators = [focusOnError],
 }) => {
-
   const formRef = useRef();
 
   const handleFormSubmit = (entity) => {
     if (formRef.current && formRef.current.reportValidity()) {
       onSubmit(entity);
     }
-  }
+  };
 
   return (
     <RFForm
       onSubmit={handleFormSubmit}
-      initialValues={initialEntity}
+      initialValues={initialValues}
       validate={validate}
       component={component}
       render={render}
       decorators={decorators}
     >
-      {(props) => <form ref={formRef} onSubmit={props.handleSubmit}>
-        {typeof(children) === "function" ? children(props) : children}
-      </form>}
+      {(props) => (
+        <form ref={formRef} onSubmit={props.handleSubmit}>
+          {typeof children === "function" ? children(props) : children}
+        </form>
+      )}
     </RFForm>
   );
 };

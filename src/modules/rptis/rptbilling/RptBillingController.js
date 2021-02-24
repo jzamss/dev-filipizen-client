@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Form } from "../../../rsi-react-components";
+import { PartnerContext, UserContext } from "../../../contexts";
+import { ContactVerification } from "../../../rsi-react-filipizen";
 
-const RptBillingController = () => {
-  return (
-    <div>
-      <h1>RPT BIlling</h1>
-    </div>
-  );
+const RptBillingController = (props) => {
+  return <ContactVerification />;
 };
 
 export default RptBillingController;

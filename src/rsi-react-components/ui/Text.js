@@ -12,6 +12,7 @@ const Text = ({
   fullWidth = true,
   textCase = "UPPER",
   type = "text",
+  autoFocus = false,
 }) => {
   if (!visible) return null;
 
@@ -27,7 +28,7 @@ const Text = ({
   };
 
   return (
-    <Field name={name}>
+    <Field name={name} subscribe={{ touched: true, error: true }}>
       {({ input, meta }) => (
         <TextField
           {...input}
@@ -40,6 +41,7 @@ const Text = ({
           fullWidth={fullWidth}
           onChange={(e) => handleChange(input, e)}
           type={type}
+          autoFocus={autoFocus}
         />
       )}
     </Field>

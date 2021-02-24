@@ -34,7 +34,7 @@ function MobilenoMask(props) {
   );
 }
 
-const MobileNo = ({
+const Mobileno = ({
   name,
   caption = "Mobile No.",
   placeholder,
@@ -67,4 +67,4 @@ const MobileNo = ({
   );
 };
 
-export default MobileNo;
+export default Mobileno;

@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-// import LguMasterTemplate from "../templates/LguMasterTemplate";
-// import { getPartnerServiceFromLocation } from "../lib/partner";
-import { getServiceComponent } from "../modules";
-
-const getPartnerServiceInfo = (location) => {
-  if (location && location.state) {
-    return location.state;
-  }
-  return {};
-};
+import LguMasterTemplate from "../templates/LguMasterTemplate";
+import { getService, getServiceComponent } from "../modules";
+import { PartnerContext, UserContext } from "../contexts";
+import { usePartner } from "../hooks";
 
 const PartnerServiceScreen = (props) => {
   const location = useLocation();
   const history = useHistory();
-  console.log("location", location);
-  console.log("history", history);
+  const [partner, setPartner, isPartnerError] = usePartner(location);
+  const [service, setService] = useState();
+  const [user, setUser] = useState({ name: "juan" });
 
-  const { partner, service } = getPartnerServiceInfo(location);
-  const ServiceModule = getServiceComponent(service);
+  useEffect(() => {
+    if (!partner) return;
+    const service = getService({ partner, location });
+    if (service) {
+      setService(service);
+    } else {
+      history.push("/partners");
+    }
+  }, [partner]);
 
+  useEffect(() => {
+    if (isPartnerError) {
+      history.push("/partners");
+    }
+  }, [isPartnerError, history]);
+
+  if (!partner || !service) return null;
+
+  const ServiceComponent = getServiceComponent(service);
   return (
-    <div>
-      <h1>Partner Service</h1>
-      <ServiceModule />
-    </div>
+    <PartnerContext.Provider value={[partner, setPartner]}>
+      <UserContext.Provider value={[user, setUser]}>
+        <LguMasterTemplate partner={partner}>
+          <ServiceComponent {...props} />
+        </LguMasterTemplate>
+      </UserContext.Provider>
+    </PartnerContext.Provider>
   );
 };
 

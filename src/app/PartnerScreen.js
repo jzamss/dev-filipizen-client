@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
-import LguMasterTemplate from "../templates/LguMasterTemplate";
+import React, { useState, useEffect } from "react";
 import { Title, Subtitle, Link } from "../rsi-react-components";
+import LguMasterTemplate from "../templates/LguMasterTemplate";
 import UnderMaintenance from "../components/UnderMaintenance";
-import "./PartnerScreen.css";
 import { usePartner } from "../hooks";
+import { getModules } from "../modules";
+import "./PartnerScreen.css";
 
 const ServiceList = (props) => {
   const { modules, onSelect } = props;
@@ -30,13 +31,19 @@ const ServiceList = (props) => {
 };
 
 const PartnerScreen = ({ location, history }) => {
-  const [partner, modules, partnerError] = usePartner({ location });
+  const [partner, setPartner, isPartnerError] = usePartner(location);
+  const [modules, setModules] = useState();
 
   useEffect(() => {
-    if (partnerError) {
+    if (!partner) return;
+    setModules(getModules(partner));
+  }, [partner]);
+
+  useEffect(() => {
+    if (isPartnerError) {
       history.push("/partners");
     }
-  }, [partnerError, history]);
+  }, [isPartnerError, history]);
 
   const onSelectService = (module, service) => {
     history.push({
@@ -44,6 +51,8 @@ const PartnerScreen = ({ location, history }) => {
       state: { partner, module, service },
     });
   };
+
+  if (!partner || !modules) return null;
 
   return (
     <LguMasterTemplate partner={partner}>
