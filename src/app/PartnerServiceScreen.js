@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 import { getService, getServiceComponent } from "../modules";
-import { PartnerContext, UserContext } from "../contexts";
+import { PartnerContext, ContactContext } from "rsi-react-filipizen";
 import { usePartner } from "../hooks";
 
 const PartnerServiceScreen = (props) => {
@@ -10,7 +10,12 @@ const PartnerServiceScreen = (props) => {
   const history = useHistory();
   const [partner, setPartner, isPartnerError] = usePartner(location);
   const [service, setService] = useState();
-  const [user, setUser] = useState({ name: "juan" });
+  const [contact, setContact] = useState({
+    name: "JUAN",
+    address: "CEBU",
+    email: "g@gmail.com",
+    verified: false,
+  });
 
   useEffect(() => {
     if (!partner) return;
@@ -33,11 +38,11 @@ const PartnerServiceScreen = (props) => {
   const ServiceComponent = getServiceComponent(service);
   return (
     <PartnerContext.Provider value={[partner, setPartner]}>
-      <UserContext.Provider value={[user, setUser]}>
+      <ContactContext.Provider value={[contact, setContact]}>
         <LguMasterTemplate partner={partner}>
           <ServiceComponent {...props} />
         </LguMasterTemplate>
-      </UserContext.Provider>
+      </ContactContext.Provider>
     </PartnerContext.Provider>
   );
 };

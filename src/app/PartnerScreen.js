@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Title, Subtitle, Link } from "../rsi-react-components";
+import { Title, Subtitle, Link } from "rsi-react-components";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 import UnderMaintenance from "../components/UnderMaintenance";
 import { usePartner } from "../hooks";

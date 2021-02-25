@@ -11,7 +11,7 @@ import {
   Service,
   getNotification,
   Subtitle,
-} from "../rsi-react-components";
+} from "rsi-react-components";
 import FilipizenTemplate from "../templates/FilipizenTemplate";
 import "./PartnerListScreen.css";
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Service } from "../rsi-react-components";
+import { Service } from "rsi-react-components";
 import { getModules } from "../modules";
 
 const getPartnerFromLocation = (location) => {

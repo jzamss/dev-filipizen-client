@@ -1,5 +1,5 @@
 /* return partner information from location*/
-import { Service } from "../rsi-react-components";
+import { Service } from "rsi-react-components";
 
 export const getPartnerFromLocation = (location) => {
   return new Promise((resolve, reject) => {
