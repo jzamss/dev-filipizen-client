@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Title, Subtitle, Link } from "rsi-react-components";
+import { usePartnerFromLocation } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 import UnderMaintenance from "../components/UnderMaintenance";
-import { usePartner } from "../hooks";
 import { getModules } from "../modules";
 import "./PartnerScreen.css";
 
@@ -31,7 +31,7 @@ const ServiceList = (props) => {
 };
 
 const PartnerScreen = ({ location, history }) => {
-  const [partner, setPartner, isPartnerError] = usePartner(location);
+  const [partner, setPartner, isPartnerError] = usePartnerFromLocation(location);
   const [modules, setModules] = useState();
 
   useEffect(() => {

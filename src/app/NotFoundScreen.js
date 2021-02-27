@@ -6,10 +6,10 @@ import {
   Panel,
   Button,
   Content,
-} from "rsi-react-web-components";
+} from "rsi-react-components";
 
-import FilipizenIcon from "./components/FilipizenIcon";
-import FilipizenMasterTemplate from "../templates/FilipizenMasterTemplate";
+import FilipizenIcon from "../icons/FilipizenIcon";
+import FilipizenMasterTemplate from "../templates/FilipizenTemplate";
 
 const HomeScreen = (props) => {
   const startHandler = () => {

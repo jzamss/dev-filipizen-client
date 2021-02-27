@@ -5,10 +5,9 @@ import PartnerListScreen from "./PartnerListScreen";
 import PartnerScreen from "./PartnerScreen";
 import PartnerServiceScreen from "./PartnerServiceScreen";
 
-// import PartnerServiceScreen from "./app/PartnerServiceScreen";
-// import PaymentSuccess from "./app/PaymentSuccess";
-// import PaymentError from "./app/PaymentError";
-// import NotFoundScreen from "./app/NotFoundScreen";
+import PaymentSuccess from "./PaymentSuccess";
+import PaymentError from "./PaymentError";
+import NotFoundScreen from "./NotFoundScreen";
 
 // const HomeScreen = loadable(() => import("./app/HomeScreen"))
 // const PartnerListScreen = loadable(() => import("./app/PartnerListScreen"))
@@ -40,21 +39,21 @@ const routes = [
     path: "/partner/:partnerId/:module/:service",
     component: PartnerServiceScreen,
   },
-  // {
-  //   name: "success",
-  //   path: "/payment/success",
-  //   component: PaymentSuccess,
-  // },
-  // {
-  //   name: "error",
-  //   path: "/payment/error",
-  //   component: PaymentError,
-  // },
-  // {
-  //   name: "404",
-  //   path: "*",
-  //   component: NotFoundScreen,
-  // },
+  {
+    name: "success",
+    path: "/payment/success",
+    component: PaymentSuccess,
+  },
+  {
+    name: "error",
+    path: "/payment/error",
+    component: PaymentError,
+  },
+  {
+    name: "404",
+    path: "*",
+    component: NotFoundScreen,
+  },
   // {
   //   name: "systools",
   //   exact: true,

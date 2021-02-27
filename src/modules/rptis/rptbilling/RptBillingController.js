@@ -1,32 +1,47 @@
-import React, { useState, useContext } from "react";
-import { Card, Title, Panel, Wizard } from "rsi-react-components";
-import {
-  ContactContext,
-  PartnerContext,
-  ContactVerification,
-} from "rsi-react-filipizen";
+import React from "react";
+import { PageFlow } from "rsi-react-components";
+import { EmailVerification, usePartnerFromLocation } from "rsi-react-filipizen"
 
-const RptBillingController = ({ history }) => {
-  const [contact, setContact] = useContext(ContactContext);
+import InitialInfo from "./InitialInfo";
+import Payment from "./Payment";
 
-  const onVerifyContact = (contact) => {};
+const pages = [
+  { step: 1, name: "verification", caption: "Verification", Component: EmailVerification },
+  { step: 2, name: "initial", caption: "Initial Information", Component: InitialInfo },
+  { step: 3, name: "payment", caption: "Payment", Component: Payment },
+];
+
+const RptBillingController = (props) => {
+  const { history, location } = props;
+  const [partner] = usePartnerFromLocation(location);
+
+  const onComplete = () => {
+    history.goBack();
+  };
+
+  const onCancel = () => {
+    history.goBack();
+  };
+
+  const onCancelPayment = () => {
+    history.goBack();
+  }
 
   return (
-    <Card>
-      <Title>Online Realty Tax Billing</Title>
-      <ContactVerification
-        visible={!contact.verified}
-        onVerify={onVerifyContact}
-        onCancel={history.goBack}
-      />
-      <Wizard visible={contact.verified}>
-        <Wizard.Page>
-          <h1>Verified </h1>
-          <pre>{JSON.stringify(contact, null, 2)}</pre>
-        </Wizard.Page>
-      </Wizard>
-      {/* <pre>{JSON.stringify(contact, null, 2)}</pre> */}
-    </Card>
+    <PageFlow
+      title="Online Realty Tax Billing"
+      initialData={{
+        txntype: "rptcol",
+        refno: null,
+        bill: {},
+      }}
+      {...props}
+      partner={partner}
+      pages={pages}
+      onCancel={onCancel}
+      onComplete={onComplete}
+      onCancelPayment={onCancelPayment}
+    />
   );
 };
 

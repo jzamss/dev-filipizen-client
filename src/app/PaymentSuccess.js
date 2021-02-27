@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Content, getUrlParameter, Service } from "rsi-react-web-components";
-import { EPaymentSuccess } from "rsi-react-filipizen-components";
+import { Content, getUrlParameter, Service } from "rsi-react-components";
+import { EPaymentSuccess } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 
 const PaymentSuccess = (props) => {

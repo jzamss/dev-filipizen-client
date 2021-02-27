@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import { PartnerContext, usePartnerFromLocation } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 import { getService, getServiceComponent } from "../modules";
-import { PartnerContext, ContactContext } from "rsi-react-filipizen";
-import { usePartner } from "../hooks";
 
 const PartnerServiceScreen = (props) => {
   const location = useLocation();
   const history = useHistory();
-  const [partner, setPartner, isPartnerError] = usePartner(location);
+  const [partner, setPartner, isPartnerError] = usePartnerFromLocation(location);
   const [service, setService] = useState();
-  const [contact, setContact] = useState({
-    name: "JUAN",
-    address: "CEBU",
-    email: "g@gmail.com",
-    verified: false,
-  });
 
   useEffect(() => {
     if (!partner) return;
@@ -38,11 +31,9 @@ const PartnerServiceScreen = (props) => {
   const ServiceComponent = getServiceComponent(service);
   return (
     <PartnerContext.Provider value={[partner, setPartner]}>
-      <ContactContext.Provider value={[contact, setContact]}>
-        <LguMasterTemplate partner={partner}>
-          <ServiceComponent {...props} />
-        </LguMasterTemplate>
-      </ContactContext.Provider>
+      <LguMasterTemplate partner={partner}>
+        <ServiceComponent {...props} />
+      </LguMasterTemplate>
     </PartnerContext.Provider>
   );
 };

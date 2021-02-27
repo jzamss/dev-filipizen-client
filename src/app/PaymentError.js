@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Panel, getUrlParameter, Service } from "rsi-react-web-components";
-import { EPaymentError } from "rsi-react-filipizen-components";
+import { Panel, getUrlParameter, Service } from "rsi-react-components";
+import { EPaymentError } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 
 const PaymentError = (props) => {
