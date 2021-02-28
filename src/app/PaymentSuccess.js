@@ -4,9 +4,9 @@ import { EPaymentSuccess } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 
 const PaymentSuccess = (props) => {
-  const { location } = props.location;
+  const location = props.location || window.location;
   const [partner, setPartner] = useState({});
-
+  
   useEffect(() => {
     const loadPartner = () => {
       const orgcode = getUrlParameter(location, "orgcode");

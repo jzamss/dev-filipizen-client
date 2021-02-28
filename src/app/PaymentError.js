@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Panel, getUrlParameter, Service } from "rsi-react-components";
+import { Content, getUrlParameter, Service } from "rsi-react-components";
 import { EPaymentError } from "rsi-react-filipizen";
 import LguMasterTemplate from "../templates/LguMasterTemplate";
 
 const PaymentError = (props) => {
-  const { location, history } = props;
+  const history = props.history;
+  const location = props.location || window.location;
   const [partner, setPartner] = useState({});
 
   useEffect(() => {
@@ -40,13 +41,13 @@ const PaymentError = (props) => {
 
   return (
     <LguMasterTemplate partner={partner}>
-      <Panel>
+      <Content center>
         <EPaymentError
           onClose={gotoPartnerService}
           {...props}
           partner={partner}
         />
-      </Panel>
+      </Content>
     </LguMasterTemplate>
   );
 };
